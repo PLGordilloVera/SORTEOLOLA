@@ -1,0 +1,255 @@
+/* --- ESTILOS BASE Y CONTENEDORES --- */
+body {
+    background-image: url('fondo.png'); 
+    background-size: cover; 
+    background-position: center;
+    background-attachment: fixed; 
+    
+    font-family: 'Verdana', sans-serif; 
+    
+    color: #333; 
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Ocultar los checkboxes activadores */
+#activador, #mostrar-resultados {
+    display: none;
+}
+
+h1 {
+    color: white;
+    background-color: rgba(0, 0, 0, 0.7); 
+    padding: 15px 30px;
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2.2em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); 
+    z-index: 3;
+}
+
+.contenedor-principal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+    max-width: 1000px;
+    padding: 0;
+    position: relative;
+    background-color: transparent;
+    border-radius: 20px;
+}
+
+/* Recuadro negro translúcido que envuelve a Lola y el diálogo */
+.recuadro-contraste {
+    background-color: rgba(0, 0, 0, 0.473); 
+    padding: 40px; 
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(255, 253, 253, 0.8);
+    display: flex;
+    flex-direction: row; 
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+/* --- ESTILOS DE LA FOTO DE LOLA (DIFUMINADO: 2s de retraso + 2s de duración) --- */
+.foto-perra {
+    background-image: url('fotolola.png'); 
+    background-size: cover; 
+    background-position: center;
+    width: 350px; 
+    height: 450px; 
+    border-radius: 15px; 
+    overflow: hidden;
+    z-index: 1; 
+    margin-right: -30px; 
+    
+    filter: blur(0px); 
+    
+    /* ESTADO INICIAL: Opacidad 0 */
+    opacity: 0;
+    
+    /* ANIMACIÓN: Fade-in de 2s, comienza después de 2s */
+    animation: fotoAparicion 2s ease-out 2s forwards; 
+}
+
+/* Definición de la animación de aparición de Lola (Difuminado simple) */
+@keyframes fotoAparicion {
+    0% { 
+        opacity: 0; 
+    }
+    100% { 
+        opacity: 1; 
+    }
+}
+
+/* --- ESTILOS DEL DIÁLOGO (MÁS ANCHO Y APARICIÓN SECUENCIAL) --- */
+.dialogo {
+    background-color: #92ebcd; 
+    border: 3px solid #62f5ab; 
+    
+    padding: 25px 35px; 
+    max-width: 500px; 
+    
+    border-radius: 40px; 
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    width: 100%;
+    position: relative; 
+    z-index: 2; 
+    margin-top: 0; 
+
+    /* Estado inicial: Invisible y pequeño */
+    opacity: 0; 
+    transform: scale(0.8);
+
+    /* ANIMACIÓN: Dura 2s, comienza después de 4s (2s de espera + 2s de Lola) */
+    animation: dialogoAparicion 2s ease-out 4s forwards; 
+}
+
+/* Pseudo-elemento para la "cola" de la burbuja */
+.dialogo::after {
+    content: '';
+    position: absolute;
+    top: 50px; 
+    left: -8px; 
+    
+    transform: rotate(135deg); 
+    
+    width: 20px; 
+    height: 20px; 
+    
+    background-color: #92ebcd; 
+    border-top: none; 
+    border-left: none; 
+    border-right: 3px solid #62f5ab; 
+    border-bottom: 3px solid #62f5ab;
+    z-index: 0;
+}
+
+/* Definición de la animación de aparición del diálogo */
+@keyframes dialogoAparicion {
+    0% { 
+        opacity: 0; 
+        transform: scale(0.8); 
+    }
+    100% { 
+        opacity: 1; 
+        transform: scale(1); 
+    }
+}
+
+/* --- ESTILOS DEL BOTÓN --- */
+.boton-resultados {
+    display: block;
+    width: 80%;
+    margin: 20px auto 0;
+    padding: 10px 20px;
+    background-color: #134720; 
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    text-transform: uppercase;
+    font-size: 1em;
+}
+
+.boton-resultados:hover {
+    background-color: #1a6229; 
+    transform: translateY(-2px);
+}
+
+/* --- ESTILOS DE LA SECCIÓN DE RESULTADOS --- */
+.resultados-sorteo {
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 30px;
+    border-radius: 15px;
+    margin-top: 30px;
+    width: 90%;
+    max-width: 650px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    
+    /* ESTADO INICIAL: OCULTO Y SIN ALTURA */
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: opacity 0.5s ease, max-height 0.8s ease-in-out;
+}
+
+/* APARECER RESULTADOS AL HACER CLIC EN EL BOTÓN */
+#mostrar-resultados:checked ~ .resultados-sorteo {
+    opacity: 1;
+    max-height: 2000px; 
+    padding: 30px;
+}
+
+/* Estilos de la tabla */
+.resultados-sorteo h2 {
+    color: #134720;
+    margin-bottom: 20px;
+    font-size: 1.8em;
+}
+
+.resultados-sorteo table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.resultados-sorteo th, .resultados-sorteo td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+}
+
+.resultados-sorteo thead th {
+    background-color: #e6ffe6;
+    color: #134720;
+    font-weight: bold;
+}
+
+.resultados-sorteo tbody tr:nth-child(even) {
+    background-color: #f7f7f7;
+}
+
+.nota-footer-resultados {
+    font-size: 0.9em;
+    color: #6c757d;
+    margin-top: 20px;
+}
+
+/* --- ESTILOS DE TEXTO DEL DIÁLOGO --- */
+.dialogo h2 { 
+    color: #134720; 
+    margin-top: 0; 
+    font-size: 1.8em; 
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); 
+}
+.dialogo p { 
+    font-size: 1.1em; 
+    line-height: 1.6; 
+    margin-bottom: 15px; 
+}
+
+/* --- ESTILOS FINALES --- */
+footer {
+    width: 100%;
+    text-align: center;
+    padding: 15px 0;
+    margin-top: 30px; 
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    font-size: 0.9em;
+    z-index: 3;
+}
